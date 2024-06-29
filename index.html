@@ -1,1 +1,128 @@
-hello world
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10-Second Typing Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #game-container {
+            text-align: center;
+        }
+        #word-display {
+            font-size: 24px;
+            margin-bottom: 20px;
+            min-height: 36px;
+        }
+        #input {
+            font-size: 18px;
+            padding: 5px;
+            width: 300px;
+        }
+        #score, #time {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        #start-button {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>10-Second Typing Game</h1>
+        <div id="word-display"></div>
+        <input type="text" id="input" placeholder="Type here" autocomplete="off" disabled>
+        <p id="score">Score: 0</p>
+        <p id="time">Time: 10s</p>
+        <button id="start-button">Start Game</button>
+    </div>
+
+    <script>
+        const words = ['because', 'through', 'government', 'president', 'information', 'something', 'important', 'development', 'national', 'business', 'education', 'university', 'management', 'international', 'technology', 'experience', 'environment', 'particular', 'available', 'understand', 'different', 'necessary', 'especially', 'population', 'knowledge'];
+
+        const wordDisplay = document.getElementById('word-display');
+        const inputElement = document.getElementById('input');
+        const scoreElement = document.getElementById('score');
+        const timeElement = document.getElementById('time');
+        const startButton = document.getElementById('start-button');
+
+        let currentWord = '';
+        let score = 0;
+        let timeLeft = 10;
+        let timer;
+
+        function showRandomWord() {
+            currentWord = words[Math.floor(Math.random() * words.length)];
+            wordDisplay.textContent = currentWord;
+            inputElement.value = '';
+        }
+
+        function updateScore() {
+            const typed = inputElement.value;
+            let wordScore = 0;
+            for (let i = 0; i < typed.length; i++) {
+                if (typed[i] === currentWord[i]) {
+                    wordScore++;
+                }
+            }
+            score += wordScore;
+            scoreElement.textContent = `Score: ${score}`;
+        }
+
+        function updateTime() {
+            timeLeft--;
+            timeElement.textContent = `Time: ${timeLeft}s`;
+            if (timeLeft === 0) {
+                endGame();
+            }
+        }
+
+        function startGame() {
+            score = 0;
+            timeLeft = 10;
+            scoreElement.textContent = 'Score: 0';
+            timeElement.textContent = 'Time: 10s';
+            inputElement.disabled = false;
+            inputElement.focus();
+            startButton.disabled = true;
+            showRandomWord();
+            timer = setInterval(() => {
+                updateTime();
+                if (inputElement.value.length === currentWord.length) {
+                    updateScore();
+                    showRandomWord();
+                }
+            }, 1000);
+        }
+
+        function endGame() {
+            clearInterval(timer);
+            inputElement.disabled = true;
+            startButton.disabled = false;
+            wordDisplay.textContent = 'Game Over!';
+            updateScore(); // Final score update
+        }
+
+        startButton.addEventListener('click', startGame);
+        inputElement.addEventListener('input', () => {
+            if (inputElement.value.length === currentWord.length) {
+                updateScore();
+                showRandomWord();
+            }
+        });
+    </script>
+</body>
+</html>
