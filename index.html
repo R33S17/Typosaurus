@@ -55,13 +55,13 @@
         <p>Test your typing speed and accuracy in this fast-paced game. You have 10 seconds to type as many words as you can. Each correct letter earns you a point!</p>
         <h2>How to Play:</h2>
         <ol style="text-align: left; display: inline-block;">
-            <li>Click the "Start Game" button</li>
+            <li>Click the "Play Now" button</li>
             <li>Type the displayed word as quickly and accurately as possible</li>
             <li>A new word appears as soon as you finish typing the current one</li>
             <li>Try to type as many correct letters as you can before time runs out</li>
         </ol>
         <p>Are you ready to challenge your typing skills?</p>
-        <button onclick="startGame()" class="button">Play Now!</button>
+        <button onclick="showGame()" class="button">Play Now!</button>
     </div>
 
     <div id="game">
@@ -88,6 +88,11 @@
         let score = 0;
         let timeLeft = 10;
         let timer;
+
+        function showGame() {
+            landingElement.style.display = 'none';
+            gameElement.style.display = 'block';
+        }
 
         function showRandomWord() {
             currentWord = words[Math.floor(Math.random() * words.length)];
@@ -116,8 +121,6 @@
         }
 
         function startGame() {
-            landingElement.style.display = 'none';
-            gameElement.style.display = 'block';
             score = 0;
             timeLeft = 10;
             scoreElement.textContent = 'Score: 0';
