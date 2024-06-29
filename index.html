@@ -7,20 +7,35 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        #game-container {
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
             text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        #landing, #game {
+            margin-top: 20px;
+        }
+        #game {
+            display: none;
+        }
+        .button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            margin-top: 20px;
+            cursor: pointer;
         }
         #word-display {
             font-size: 24px;
-            margin-bottom: 20px;
+            margin: 20px 0;
             min-height: 36px;
         }
         #input {
@@ -32,27 +47,37 @@
             margin-top: 20px;
             font-size: 18px;
         }
-        #start-button {
-            font-size: 18px;
-            padding: 10px 20px;
-            margin-top: 20px;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
-    <div id="game-container">
+    <div id="landing">
+        <h1>Welcome to the 10-Second Typing Game!</h1>
+        <p>Test your typing speed and accuracy in this fast-paced game. You have 10 seconds to type as many words as you can. Each correct letter earns you a point!</p>
+        <h2>How to Play:</h2>
+        <ol style="text-align: left; display: inline-block;">
+            <li>Click the "Start Game" button</li>
+            <li>Type the displayed word as quickly and accurately as possible</li>
+            <li>A new word appears as soon as you finish typing the current one</li>
+            <li>Try to type as many correct letters as you can before time runs out</li>
+        </ol>
+        <p>Are you ready to challenge your typing skills?</p>
+        <button onclick="startGame()" class="button">Play Now!</button>
+    </div>
+
+    <div id="game">
         <h1>10-Second Typing Game</h1>
         <div id="word-display"></div>
         <input type="text" id="input" placeholder="Type here" autocomplete="off" disabled>
         <p id="score">Score: 0</p>
         <p id="time">Time: 10s</p>
-        <button id="start-button">Start Game</button>
+        <button id="start-button" class="button">Start Game</button>
     </div>
 
     <script>
         const words = ['because', 'through', 'government', 'president', 'information', 'something', 'important', 'development', 'national', 'business', 'education', 'university', 'management', 'international', 'technology', 'experience', 'environment', 'particular', 'available', 'understand', 'different', 'necessary', 'especially', 'population', 'knowledge'];
 
+        const landingElement = document.getElementById('landing');
+        const gameElement = document.getElementById('game');
         const wordDisplay = document.getElementById('word-display');
         const inputElement = document.getElementById('input');
         const scoreElement = document.getElementById('score');
@@ -91,6 +116,8 @@
         }
 
         function startGame() {
+            landingElement.style.display = 'none';
+            gameElement.style.display = 'block';
             score = 0;
             timeLeft = 10;
             scoreElement.textContent = 'Score: 0';
